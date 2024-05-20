@@ -86,7 +86,7 @@ function Prism({analyser, ...props}: GroupProps & {analyser: AnalyserNode}) {
       ref.current.position.z = THREE.MathUtils.lerp(
         ref.current.position.z,
         -30 + dataArray[1] / 10,
-        0.075,
+        0.2,
       );
     }
   });
