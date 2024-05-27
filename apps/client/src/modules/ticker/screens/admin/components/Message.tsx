@@ -6,7 +6,7 @@ import {Stack, Box, Flex, Image, Text} from "@chakra-ui/react";
 
 interface Props extends Omit<StackProps, "onSelect"> {
   variant?: "featured" | "normal";
-  onFavorite?: (id: Message["id"]) => void;
+  onLock?: (id: Message["id"]) => void;
   onSelect?: (message: Message) => void;
   onBookmark?: (id: Message["id"]) => void;
   sender: string;
@@ -14,7 +14,7 @@ interface Props extends Omit<StackProps, "onSelect"> {
   timestamp: number;
   message: Message;
   isHighlighted?: boolean;
-  isFavorite?: boolean;
+  isLock?: boolean;
   isSelected?: boolean;
 }
 
@@ -23,11 +23,11 @@ const Message: React.FC<Props> = ({
   badges,
   timestamp,
   sender,
-  onFavorite,
+  onLock,
   onBookmark,
   onSelect,
   isSelected = false,
-  isFavorite = false,
+  isLock = false,
   isHighlighted = false,
   ...props
 }) => {
@@ -46,7 +46,7 @@ const Message: React.FC<Props> = ({
         wordBreak="break-word"
         onClick={({ctrlKey, altKey}) =>
           ctrlKey
-            ? onFavorite?.(message.id)
+            ? onLock?.(message.id)
             : altKey
             ? onBookmark?.(message.id)
             : onSelect?.(message)
@@ -114,13 +114,18 @@ const Message: React.FC<Props> = ({
         </Stack>
       </Stack>
       <Flex direction="column" height={74} justifyContent="space-between" paddingY={1.5}>
-        <StarIcon color={isHighlighted ? "secondary" : "translucid"} height={6} width={6} />
+        <StarIcon
+          color={isHighlighted ? "secondary" : "translucid"}
+          height={6}
+          width={6}
+          onClick={() => console.log('test')}
+        />
         <LockIcon
-          color={isFavorite ? "primary" : "translucid"}
+          color={isLock ? "primary" : "translucid"}
           cursor="pointer"
           height={6}
           width={6}
-          onClick={() => onFavorite?.(message.id)}
+          onClick={() => onLock?.(message.id)}
         />
       </Flex>
     </Stack>

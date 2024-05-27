@@ -21,9 +21,9 @@ const TickerAdminScreen = () => {
   const [buffer, setBuffer] = useState<IMessage[]>([]);
   const [selected, setSelected] = useState<null | IMessage["id"]>(null);
   const [bookmark, setBookmark] = useState<null | IMessage["id"]>(null);
-  const [favorites, setFavorites] = useState<IMessage["id"][]>([]);
+  const [locks, setLocks] = useState<IMessage["id"][]>([]);
   const [onlyHighlighted, toggleOnlyHighlighted] = useState<boolean>(false);
-  const [showFavorites, toggleFavorites] = useState<boolean>(false);
+  const [showLocks, toggleLocks] = useState<boolean>(false);
   const messages = useMemo(() => {
     let draft = buffer;
 
@@ -42,9 +42,9 @@ const TickerAdminScreen = () => {
     socket.emit("messages:select", selected === message.id ? null : message);
   }
 
-  function handleToggleFavorite(id: IMessage["id"]) {
-    setFavorites((favorites) =>
-      favorites.includes(id) ? favorites.filter((_id) => _id !== id) : favorites.concat(id),
+  function handleToggleLock(id: IMessage["id"]) {
+    setLocks((locks) =>
+      locks.includes(id) ? locks.filter((_id) => _id !== id) : locks.concat(id),
     );
   }
 
@@ -56,7 +56,7 @@ const TickerAdminScreen = () => {
     setBuffer([]);
     setSelected(null);
     setBookmark(null);
-    setFavorites([]);
+    setLocks([]);
   }
 
   useEffect(() => {
@@ -87,11 +87,11 @@ const TickerAdminScreen = () => {
           <SearchInput value={query} onChange={setQuery} onClose={() => setQuery(null)} />
           <Stack alignItems="center" direction="row" spacing={4}>
             <LockIcon
-              color={showFavorites ? "primary.500" : "white"}
+              color={showLocks ? "primary.500" : "white"}
               cursor="pointer"
               height={5}
               width={5}
-              onClick={() => toggleFavorites((showFavorites) => !showFavorites)}
+              onClick={() => toggleLocks((showLocks) => !showLocks)}
             />
             <StarIcon
               color={onlyHighlighted ? "secondary.500" : "white"}
@@ -139,14 +139,14 @@ const TickerAdminScreen = () => {
                       <Stack key={message.id} spacing={4}>
                         <Message
                           badges={message.sender.badges}
-                          isFavorite={favorites.includes(message.id)}
+                          isLock={locks.includes(message.id)}
                           isHighlighted={message.isHighlighted}
                           isSelected={isSelected}
                           message={message}
                           sender={message.sender.name}
                           timestamp={message.timestamp}
                           onBookmark={() => handleToggleBookmark(message.id)}
-                          onFavorite={() => handleToggleFavorite(message.id)}
+                          onLock={() => handleToggleLock(message.id)}
                           onSelect={() => handleToggleSelected(message)}
                         />
                         {bookmark === message.id && (
@@ -175,36 +175,36 @@ const TickerAdminScreen = () => {
               )}
             </Stack>
           </Stack>
-          {showFavorites && (
+          {showLocks && (
             <Stack flex={1}>
               <Text color="solid" fontWeight="500" textTransform="uppercase">
-                Favorites
+                Locks Messages
               </Text>
               <Stack flex={1} overflowY="scroll" paddingRight={4} spacing={4}>
-                {Boolean(favorites.length) ? (
+                {Boolean(locks.length) ? (
                   buffer
-                    .filter((message) => favorites.includes(message.id))
+                    .filter((message) => locks.includes(message.id))
                     .map((message) => {
                       const isSelected = selected === message.id;
 
                       return (
                         <Message
                           key={message.id}
-                          isFavorite
+                          isLock
                           badges={message.sender.badges}
                           isHighlighted={message.isHighlighted}
                           isSelected={isSelected}
                           message={message}
                           sender={message.sender.name}
                           timestamp={message.timestamp}
-                          onFavorite={() => handleToggleFavorite(message.id)}
+                          onLock={() => handleToggleLock(message.id)}
                           onSelect={() => handleToggleSelected(message)}
                         />
                       );
                     })
                 ) : (
                   <Text fontSize="xl" margin="auto" opacity={0.5}>
-                    No messages in favorites
+                    No messages in Lock
                   </Text>
                 )}
               </Stack>
