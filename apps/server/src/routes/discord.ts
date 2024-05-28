@@ -9,7 +9,9 @@ discordRouter.get("/messages", async (req, res) => {
   const messages = await channelsAPI.getMessages(channelID, {limit: 100});
   const emoji = "✅";
   const lastMessageReacted = messages.find((message) =>
-    message.reactions?.some((reaction) => reaction.emoji.name === emoji && reaction.me),
+    message.reactions?.some(function (reaction) {
+      return reaction.emoji.name === emoji && reaction.me
+    }),
   );
 
   if (!lastMessageReacted) {

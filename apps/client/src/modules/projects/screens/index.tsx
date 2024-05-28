@@ -19,7 +19,7 @@ function ProjectsScreen() {
   const [selectedMessage, setSelectedMessage] = useState<APIMessage | null>(null);
   const [selectedChannel, setSelectedChannel] = useState<APIChannel | null>(null);
   const socket = useSocket();
-  const guildID = "505180649787752450";
+  const guildID = "1244763230468051004";
 
   const getMessages = async () => {
     setLoading(true);
