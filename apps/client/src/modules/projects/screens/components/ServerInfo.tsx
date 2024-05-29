@@ -8,7 +8,7 @@ import api from "@/discord/api";
 
 interface ServerInfoProps {
   onChangeChannel: (channel: APIChannel) => APIChannel;
-  guildID: APIGuild["id"];
+  guildID: APIGuild["id"] | undefined;
 }
 
 export default function ServerInfo({onChangeChannel, guildID}: ServerInfoProps) {
@@ -16,7 +16,7 @@ export default function ServerInfo({onChangeChannel, guildID}: ServerInfoProps) 
   const [channels, setChannels] = useState<APIChannel[] | null>(null);
   const [selectedChannel, setSelectedChannel] = useState<APIChannel | null>(null);
 
-  const getGuildsInfo = async (guildID: APIGuild["id"]) => {
+  const getGuildsInfo = async (guildID: APIGuild["id"] | undefined) => {
     const guild = await api.guild.fetch(guildID);
     const channels = await api.guild.fetchChannels(guildID);
     const onlyTextChannels = channels.filter((channel) => channel.type === 0);

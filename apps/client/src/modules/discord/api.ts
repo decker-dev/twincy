@@ -31,13 +31,13 @@ const api = {
     },
   },
   guild: {
-    fetch: async (guildID: APIGuild["id"]): Promise<APIGuild> => {
+    fetch: async (guildID: APIGuild["id"]| undefined): Promise<APIGuild> => {
       const url = `http://localhost:6600/api/discord/guilds?guild_id=${guildID}`;
       const res = await axios.get(url);
 
       return res.data;
     },
-    fetchChannels: async (guildID: APIGuild["id"]): Promise<APIChannel[]> => {
+    fetchChannels: async (guildID: APIGuild["id"]| undefined): Promise<APIChannel[]> => {
       const url = `http://localhost:6600/api/discord/guilds/channels?guild_id=${guildID}`;
       const res = await axios.get(url);
 

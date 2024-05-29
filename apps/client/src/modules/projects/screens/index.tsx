@@ -19,7 +19,7 @@ function ProjectsScreen() {
   const [selectedMessage, setSelectedMessage] = useState<APIMessage | null>(null);
   const [selectedChannel, setSelectedChannel] = useState<APIChannel | null>(null);
   const socket = useSocket();
-  const guildID = "1244763230468051004";
+  const guildID = process.env.NEXT_PUBLIC_DISCORD_GUILD_ID;
 
   const getMessages = async () => {
     setLoading(true);

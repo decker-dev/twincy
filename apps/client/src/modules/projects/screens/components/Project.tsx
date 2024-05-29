@@ -16,7 +16,7 @@ import { type APIMessage } from "discord-api-types/v10";
 interface ProjectProps {
   message: APIMessage;
   selected: boolean;
-  guildID: string;
+  guildID: string | undefined;
   onVisitPage: () => void;
   onInitVotation: () => void;
   onCloseVotation: () => void;
