@@ -4,12 +4,13 @@
   "license": "MIT",
   "type": "module",
   "author": "Goncy",
+  "packageManager": "pnpm@9.4.0",
   "scripts": {
     "build": "turbo build",
     "start": "turbo build start",
     "dev": "turbo dev"
   },
   "devDependencies": {
-    "turbo": "^1.8.3"
+    "turbo": "^2.0.4"
   }
 }
